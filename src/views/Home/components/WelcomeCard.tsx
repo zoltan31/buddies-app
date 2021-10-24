@@ -42,11 +42,11 @@ export default function WelcomeCard() {
         </div>
         <div className="px-6 py-5 text-sm font-medium text-center">
           <span className="text-gray-900">2</span>{" "}
-          <span className="text-gray-600">Sessions planned this week</span>
+          <span className="text-gray-600">Sessions planned</span>
         </div>
         <div className="px-6 py-5 text-sm font-medium text-center">
           <span className="text-gray-900">4</span>{" "}
-          <span className="text-gray-600">Buddy invites pending</span>
+          <span className="text-gray-600">Invites pending</span>
         </div>
       </div>
     </Card>

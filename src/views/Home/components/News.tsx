@@ -3,21 +3,20 @@ import Card from "../../../components/Card";
 const announcements = [
   {
     id: 1,
-    title: "Office closed on July 2nd",
+    title: "New features",
     preview:
-      "Cum qui rem deleniti. Suscipit in dolor veritatis sequi aut. Vero ut earum quis deleniti. Ut a sunt eum cum ut repudiandae possimus. Nihil ex tempora neque cum consectetur dolores.",
+      "Thanks for using Building Buddies! We're happy to announce that we published version 1.0.1, which brings many new features. To learn more click here!",
   },
   {
     id: 2,
-    title: "New password policy",
-    preview:
-      "Alias inventore ut autem optio voluptas et repellendus. Facere totam quaerat quam quo laudantium cumque eaque excepturi vel. Accusamus maxime ipsam reprehenderit rerum id repellendus rerum. Culpa cum vel natus. Est sit autem mollitia.",
+    title: "New privacy policy",
+    preview: "We've updated our privacy policy. To learn more click here.",
   },
   {
     id: 3,
-    title: "Office closed on July 2nd",
+    title: "Maintenance downtime on 24th December, 2021",
     preview:
-      "Tenetur libero voluptatem rerum occaecati qui est molestiae exercitationem. Voluptate quisquam iure assumenda consequatur ex et recusandae. Alias consectetur voluptatibus. Accusamus a ab dicta et. Consequatur quis dignissimos voluptatem nisi.",
+      "To bring you the best experience we're constantly updating our product. A major update will come on 24th of December therefore we will schedule a 2 hour of downtime.",
   },
 ];
 
@@ -28,7 +27,7 @@ export default function News() {
         <h1 className="text-base font-medium text-gray-900">News</h1>
         <div>
           <div className="flow-root mt-6">
-            <ul role="list" className="-my-5 divide-y divide-gray-200">
+            <ul className="-my-5 divide-y divide-gray-200">
               {announcements.map((announcement) => (
                 <li key={announcement.id} className="py-5">
                   <div className="relative focus-within:ring-2 focus-within:ring-indigo-500">

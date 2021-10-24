@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Buddies from "./views/Buddies";
-import Find from "./views/Find";
+import Sessions from "./views/Sessions";
 import Home from "./views/Home";
+import CreateSession from "./views/CreateSession";
 
 function App() {
   return (
@@ -11,11 +11,11 @@ function App() {
         <Route exact strict path="/">
           <Home />
         </Route>
-        <Route exact strict path="/find">
-          <Find />
+        <Route exact strict path="/sessions">
+          <Sessions />
         </Route>
-        <Route exact strict path="/buddies">
-          <Buddies />
+        <Route exact strict path="/sessions/create">
+          <CreateSession />
         </Route>
       </Switch>
     </BrowserRouter>

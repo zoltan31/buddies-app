@@ -1,10 +1,10 @@
 import React from "react";
 import AppLayout from "../../components/AppLayout";
 
-export default function Find() {
+export default function CreateSession() {
   return (
-    <AppLayout header="Find">
-      <p>Find homies</p>
+    <AppLayout header="Sessions">
+      <p>Create Session</p>
     </AppLayout>
   );
 }

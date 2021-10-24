@@ -14,13 +14,12 @@ const user = {
 };
 
 type Props = {
-  header: "Home" | "Find" | "Buddies";
+  header: "Home" | "Sessions";
 };
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Find", href: "/find" },
-  { name: "Buddies", href: "/buddies" },
+  { name: "Sessions", href: "/sessions" },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "#" },
