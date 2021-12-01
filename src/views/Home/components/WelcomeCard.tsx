@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "../../../components/Card";
 
 export default function WelcomeCard() {
+  const [user, setUser] = useState({
+    name: "Jill Baits",
+  });
+
+  useEffect(() => {
+    fetch("http://localhost:8000/rest-auth/user", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("key")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((obj) => {
+        const email = obj.email as string;
+        const name = email.split("@")[0];
+        setUser((old) => ({ ...old, name }));
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <Card>
       <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
@@ -21,7 +40,7 @@ export default function WelcomeCard() {
                   Welcome back,
                 </p>
                 <h3 className="text-xl font-bold text-gray-900 sm:text-2xl">
-                  Jill Gates
+                  {user.name}
                 </h3>
               </div>
             </div>

@@ -1,12 +1,40 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import Logo from "../../logo2.png";
+
+type LoginData = {
+  email: string;
+  password: string;
+};
 
 export default function Login() {
   const history = useHistory();
 
+  const [loginData, setLoginData] = useState<LoginData>({
+    email: "",
+    password: "",
+  });
+
+  const changeLoginData = (key: keyof LoginData, data: string) => {
+    setLoginData((old) => ({ ...old, [key]: data }));
+  };
+
   const onSubmit = () => {
-    history.push("/");
+    const formData = new FormData();
+    formData.append("email", loginData.email);
+    formData.append("password", loginData.password);
+
+    fetch("http://localhost:8000/rest-auth/login/", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((obj) => {
+        localStorage.setItem("key", obj.key);
+        history.push("/");
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -49,6 +77,8 @@ export default function Login() {
                   type="email"
                   autoComplete="email"
                   required
+                  value={loginData.email}
+                  onChange={(e) => changeLoginData("email", e.target.value)}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
@@ -63,6 +93,8 @@ export default function Login() {
                   type="password"
                   autoComplete="current-password"
                   required
+                  value={loginData.password}
+                  onChange={(e) => changeLoginData("password", e.target.value)}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
@@ -97,7 +129,7 @@ export default function Login() {
 
             <div>
               <button
-                type="submit"
+                type="button"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={onSubmit}
               >

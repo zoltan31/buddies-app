@@ -13,8 +13,11 @@ type Props = {
   creator: string;
   location: string;
   description: string;
-  profilePicSrc: string;
-  startTime: string;
+  time: string;
+};
+
+const locationQuery = (location: string) => {
+  return location.replace(" ", "+");
 };
 
 export default function Session({
@@ -23,8 +26,7 @@ export default function Session({
   creator,
   location,
   description,
-  profilePicSrc,
-  startTime,
+  time,
 }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const toggle = () => setShowDetails(!showDetails);
@@ -71,9 +73,7 @@ export default function Session({
                   className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                   aria-hidden="true"
                 />
-                <p>
-                  Starts at <time dateTime={startTime}>{startTime}</time>
-                </p>
+                <p>Starts at {time}</p>
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function Session({
               <div className="gap-4 flex items-center">
                 <img
                   className="h-16 w-auto rounded-full"
-                  src={profilePicSrc}
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   alt="Building Buddies"
                 />
                 <div>
@@ -98,15 +98,25 @@ export default function Session({
                 <p className="text-gray-500">Location:</p>
                 <p className="font-medium">{location}</p>
                 <p className="text-gray-500">Starts at:</p>
-                <p className="font-medium">
-                  {new Date(startTime).toLocaleString()}
-                </p>
+                <p className="font-medium">{new Date(time).toLocaleString()}</p>
               </div>
             </div>
             <div className="mb-4">
               <p className="text-gray-500">Description:</p>
               <p className="font-medium">{description}</p>
             </div>
+            <iframe
+              title="Google Maps"
+              width="600"
+              height="450"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+              src={`https://www.google.com/maps/embed/v1/place?key=${
+                process.env.REACT_APP_API_KEY
+              }
+      &q=${locationQuery(location)}`}
+            ></iframe>
             <div className="flex justify-end gap-1">
               <button
                 type="button"

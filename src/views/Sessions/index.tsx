@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppLayout from "../../components/AppLayout";
 import Card from "../../components/Card";
@@ -12,7 +12,7 @@ const positions = [
     type: "Beginner",
     location: "Budapest, X. district",
     creator: "Ádám",
-    startTime: "2021-11-07",
+    time: "2021-11-07",
     description: "ASD",
     profilePicSrc:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
@@ -23,7 +23,7 @@ const positions = [
     type: "Beginner",
     location: "Budapest, VII. district",
     creator: "Béla",
-    startTime: "2021-11-09",
+    time: "2021-11-09",
     description: "ASD",
     profilePicSrc:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
@@ -34,7 +34,7 @@ const positions = [
     type: "Beginner",
     location: "Budapest, XI. district",
     creator: "Csaba",
-    startTime: "2021-11-14",
+    time: "2021-11-14",
     description: "ASD",
     profilePicSrc:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
@@ -42,6 +42,22 @@ const positions = [
 ];
 
 export default function Sessions() {
+  const [sessions, setSessions] = useState<typeof positions>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/plan", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("key")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((obj) => {
+        setSessions(obj);
+        console.log(obj);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <AppLayout header="Sessions">
       {/* Page header */}
@@ -77,9 +93,16 @@ export default function Sessions() {
         <div className="sm:col-span-2">
           <Card>
             <ul className="divide-y divide-gray-200">
-              {positions.map((position) => (
+              {sessions.map((position) => (
                 <li key={position.id}>
-                  <Session {...position} />
+                  <Session
+                    time={position.time}
+                    title={position.title}
+                    description={position.description}
+                    location={position.location}
+                    creator="Jani"
+                    type="Beginner"
+                  />
                 </li>
               ))}
             </ul>

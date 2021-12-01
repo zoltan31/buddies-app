@@ -1,11 +1,37 @@
+import { useState } from "react";
 import { useHistory } from "react-router";
 import Logo from "../../logo2.png";
+
+type RegisterData = {
+  email: string;
+  password1: string;
+  password2: string;
+};
 
 export default function Register() {
   const history = useHistory();
 
+  const [registerData, setRegisterData] = useState<RegisterData>({
+    email: "",
+    password1: "",
+    password2: "",
+  });
+
+  const changeRegisterData = (key: keyof RegisterData, data: string) => {
+    setRegisterData((old) => ({ ...old, [key]: data }));
+  };
+
   const onSubmit = () => {
-    history.push("/login");
+    const formData = new FormData();
+    formData.append("email", registerData.email);
+    formData.append("password1", registerData.password1);
+    formData.append("password2", registerData.password2);
+    fetch("http://localhost:8000/rest-auth/registration/", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -47,6 +73,8 @@ export default function Register() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  value={registerData.email}
+                  onChange={(e) => changeRegisterData("email", e.target.value)}
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
@@ -61,6 +89,10 @@ export default function Register() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
+                  value={registerData.password1}
+                  onChange={(e) =>
+                    changeRegisterData("password1", e.target.value)
+                  }
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
@@ -73,8 +105,12 @@ export default function Register() {
                 <input
                   id="repeat-password"
                   name="repeat-password"
-                  type="repeat-password"
+                  type="password"
                   autoComplete="off"
+                  value={registerData.password2}
+                  onChange={(e) =>
+                    changeRegisterData("password2", e.target.value)
+                  }
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Repeat password"
@@ -110,7 +146,7 @@ export default function Register() {
 
             <div>
               <button
-                type="submit"
+                type="button"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={onSubmit}
               >

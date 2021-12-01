@@ -1,10 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import AppLayout from "../../components/AppLayout";
 import Card from "../../components/Card";
 
+type Session = {
+  title: string;
+  time: string;
+  location: string;
+  description: string;
+};
+
 export default function CreateSession() {
   const history = useHistory();
+  const [owner, setOwner] = useState(0);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/rest-auth/user", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("key")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((obj) => {
+        setOwner(obj.id);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  const [session, setSession] = useState<Session>({
+    title: "",
+    time: "",
+    location: "",
+    description: "",
+  });
+
+  const changeSession = (key: keyof Session, data: any) => {
+    setSession((old) => ({ ...old, [key]: data }));
+  };
+
+  const onSubmit = () => {
+    const formData = new FormData();
+    formData.append("title", session.title);
+    formData.append("time", session.time);
+    formData.append("location", session.location);
+    formData.append("description", session.description);
+    formData.append("owner", "1");
+
+    fetch("http://localhost:8000/plan/", {
+      method: "POST",
+      headers: {
+        Authorization: `Token ${localStorage.getItem("key")}`,
+      },
+      body: formData,
+    }).then(() => history.push("/"));
+  };
 
   return (
     <AppLayout header="Sessions">
@@ -34,6 +83,8 @@ export default function CreateSession() {
                         type="text"
                         name="name"
                         id="name"
+                        value={session.title}
+                        onChange={(e) => changeSession("title", e.target.value)}
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -53,6 +104,10 @@ export default function CreateSession() {
                         type="text"
                         name="location"
                         id="location"
+                        value={session.location}
+                        onChange={(e) =>
+                          changeSession("location", e.target.value)
+                        }
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder="Budapest X. district"
                       />
@@ -73,6 +128,8 @@ export default function CreateSession() {
                         type="datetime-local"
                         name="startDate"
                         id="startDate"
+                        value={session.time}
+                        onChange={(e) => changeSession("time", e.target.value)}
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder="Budapest X. district"
                       />
@@ -111,6 +168,10 @@ export default function CreateSession() {
                       name="description"
                       id="description"
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                      value={session.description}
+                      onChange={(e) =>
+                        changeSession("description", e.target.value)
+                      }
                     />
                   </div>
                 </div>
@@ -130,8 +191,9 @@ export default function CreateSession() {
                 Cancel
               </button>
               <button
-                type="submit"
+                type="button"
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={onSubmit}
               >
                 Save
               </button>
