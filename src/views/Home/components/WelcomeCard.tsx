@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Card from "../../../components/Card";
 
 export default function WelcomeCard() {
@@ -20,18 +21,18 @@ export default function WelcomeCard() {
                   Welcome back,
                 </p>
                 <h3 className="text-xl font-bold text-gray-900 sm:text-2xl">
-                  Tom Cook
+                  Jill Gates
                 </h3>
               </div>
             </div>
           </div>
           <div className="ml-4 mt-4 flex-shrink-0 flex">
-            <button
-              type="button"
+            <Link
+              to="/profile"
               className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               View Profile
-            </button>
+            </Link>
           </div>
         </div>
       </div>

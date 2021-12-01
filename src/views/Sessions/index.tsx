@@ -13,6 +13,9 @@ const positions = [
     location: "Budapest, X. district",
     creator: "Ádám",
     startTime: "2021-11-07",
+    description: "ASD",
+    profilePicSrc:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 2,
@@ -21,6 +24,9 @@ const positions = [
     location: "Budapest, VII. district",
     creator: "Béla",
     startTime: "2021-11-09",
+    description: "ASD",
+    profilePicSrc:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 3,
@@ -29,6 +35,9 @@ const positions = [
     location: "Budapest, XI. district",
     creator: "Csaba",
     startTime: "2021-11-14",
+    description: "ASD",
+    profilePicSrc:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
 ];
 

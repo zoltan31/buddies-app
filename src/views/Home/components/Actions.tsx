@@ -1,17 +1,18 @@
 import { LocationMarkerIcon, PlusIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import { classNames } from "../../../utils/classnames";
 
 const actions = [
   {
     title: "Create Session",
-    href: "#",
+    href: "/sessions/create",
     icon: LocationMarkerIcon,
     iconForeground: "text-teal-700",
     iconBackground: "bg-teal-50",
   },
   {
     title: "Join a Session",
-    href: "#",
+    href: "/sessions",
     icon: PlusIcon,
     iconForeground: "text-purple-700",
     iconBackground: "bg-purple-50",
@@ -49,11 +50,11 @@ export default function Actions() {
           </div>
           <div className="mt-8">
             <h3 className="text-lg font-medium">
-              <a href={action.href} className="focus:outline-none">
+              <Link to={action.href} className="focus:outline-none">
                 {/* Extend touch target to entire panel */}
                 <span className="absolute inset-0" aria-hidden="true" />
                 {action.title}
-              </a>
+              </Link>
             </h3>
             <p className="mt-2 text-sm text-gray-500">
               Doloribus dolores nostrum quia qui natus officia quod et dolorem.
