@@ -10,12 +10,12 @@ import { classNames } from "../../../utils/classnames";
 export type SessionType = {
   id: number;
   title: string;
-  type: string;
   creator: string;
   location: string;
   description: string;
   time: string;
   experience_level: string;
+  setJoined: (sessionName: string) => void;
 };
 
 type Props = SessionType;
@@ -32,17 +32,29 @@ const locationQuery = (location: string) => {
 };
 
 export default function Session({
+  id,
   title,
-  type,
   creator,
   location,
   description,
   time,
   experience_level,
+  setJoined,
 }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const toggle = () => setShowDetails(!showDetails);
-  console.log(experience_level);
+
+  const sendJoin = async () => {
+    fetch(`http://localhost:8000/user/subscribe/${id}`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("key")}`,
+      },
+    })
+      .then(() => {
+        setJoined(title);
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <div className="bg-gray-100 sm:rounded-md">
@@ -145,6 +157,7 @@ export default function Session({
               <button
                 type="button"
                 className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={sendJoin}
               >
                 Join
               </button>

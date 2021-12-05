@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppLayout from "../../components/AppLayout";
 import Card from "../../components/Card";
+import Notification from "../../components/Notification";
 import SearchPanel from "./components/SearchPanel";
 import Session, { SessionType } from "./components/Session";
 
 export default function Sessions() {
   const [sessions, setSessions] = useState<SessionType[]>([]);
+  const [joinedTitle, setJoinedTitle] = useState<string>("");
+  const closeNoti = () => setJoinedTitle("");
 
   useEffect(() => {
     fetch("http://localhost:8000/plan", {
@@ -67,7 +70,7 @@ export default function Sessions() {
                     location={position.location}
                     experience_level={position.experience_level}
                     creator="Gill Bates"
-                    type="Beginner"
+                    setJoined={setJoinedTitle}
                   />
                 </li>
               ))}
@@ -75,6 +78,11 @@ export default function Sessions() {
           </Card>
         </div>
       </div>
+      <Notification
+        show={joinedTitle !== ""}
+        onClose={closeNoti}
+        text={joinedTitle}
+      />
     </AppLayout>
   );
 }

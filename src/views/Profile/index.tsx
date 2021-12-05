@@ -3,42 +3,6 @@ import AppLayout from "../../components/AppLayout";
 import Card from "../../components/Card";
 import Session from "../Sessions/components/Session";
 
-const positions = [
-  {
-    id: 1,
-    title: "30 perces edzés",
-    type: "Beginner",
-    location: "Budapest, X. district",
-    creator: "Ádám",
-    startTime: "2021-11-07",
-    description: "ASD",
-    profilePicSrc:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 2,
-    title: "1 órás teljes edzés",
-    type: "Beginner",
-    location: "Budapest, VII. district",
-    creator: "Béla",
-    startTime: "2021-11-09",
-    description: "ASD",
-    profilePicSrc:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 3,
-    title: "Nyújtás + edzés",
-    type: "Beginner",
-    location: "Budapest, XI. district",
-    creator: "Csaba",
-    startTime: "2021-11-14",
-    description: "ASD",
-    profilePicSrc:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
-
 export default function Profile() {
   const [sessions, setSessions] = useState<any[]>([]);
 
@@ -55,6 +19,15 @@ export default function Profile() {
       })
       .catch((err) => console.error(err));
   }, []);
+
+  const [joinedTitle, setJoinedTitle] = useState<string>("");
+
+  const setJoined = (title: string) => {
+    setJoinedTitle(title);
+    setTimeout(() => {
+      setJoinedTitle("");
+    }, 2000);
+  };
 
   return (
     <AppLayout header="Profile">
@@ -91,7 +64,7 @@ export default function Profile() {
                     location={position.location}
                     experience_level={position.experience}
                     creator="Jani"
-                    type="Beginner"
+                    setJoined={setJoined}
                   />
                 </li>
               ))}
