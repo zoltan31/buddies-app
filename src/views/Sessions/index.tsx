@@ -3,46 +3,10 @@ import { Link } from "react-router-dom";
 import AppLayout from "../../components/AppLayout";
 import Card from "../../components/Card";
 import SearchPanel from "./components/SearchPanel";
-import Session from "./components/Session";
-
-const positions = [
-  {
-    id: 1,
-    title: "30 perces edzés",
-    type: "Beginner",
-    location: "Budapest, X. district",
-    creator: "Ádám",
-    time: "2021-11-07",
-    description: "ASD",
-    profilePicSrc:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 2,
-    title: "1 órás teljes edzés",
-    type: "Beginner",
-    location: "Budapest, VII. district",
-    creator: "Béla",
-    time: "2021-11-09",
-    description: "ASD",
-    profilePicSrc:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 3,
-    title: "Nyújtás + edzés",
-    type: "Beginner",
-    location: "Budapest, XI. district",
-    creator: "Csaba",
-    time: "2021-11-14",
-    description: "ASD",
-    profilePicSrc:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
+import Session, { SessionType } from "./components/Session";
 
 export default function Sessions() {
-  const [sessions, setSessions] = useState<typeof positions>([]);
+  const [sessions, setSessions] = useState<SessionType[]>([]);
 
   useEffect(() => {
     fetch("http://localhost:8000/plan", {
@@ -96,11 +60,13 @@ export default function Sessions() {
               {sessions.map((position) => (
                 <li key={position.id}>
                   <Session
+                    id={position.id}
                     time={position.time}
                     title={position.title}
                     description={position.description}
                     location={position.location}
-                    creator="Jani"
+                    experience_level={position.experience_level}
+                    creator="Gill Bates"
                     type="Beginner"
                   />
                 </li>

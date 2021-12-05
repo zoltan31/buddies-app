@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppLayout from "../../components/AppLayout";
 import Card from "../../components/Card";
 import Session from "../Sessions/components/Session";
@@ -40,6 +40,22 @@ const positions = [
 ];
 
 export default function Profile() {
+  const [sessions, setSessions] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/user/joined/", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("key")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((obj) => {
+        setSessions(obj);
+        console.log(obj);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <AppLayout header="Profile">
       <div className="ml-4 mt-4">
@@ -64,13 +80,22 @@ export default function Profile() {
                 Joined Sessions
               </h3>
             </div>
-            {/* <ul className="divide-y divide-gray-200">
-              {positions.map((position) => (
+            <ul className="divide-y divide-gray-200">
+              {sessions.map((position) => (
                 <li key={position.id}>
-                  <Session {...position} />
+                  <Session
+                    id={position.id}
+                    time={position.time}
+                    title={position.title}
+                    description={position.description}
+                    location={position.location}
+                    experience_level={position.experience}
+                    creator="Jani"
+                    type="Beginner"
+                  />
                 </li>
               ))}
-            </ul> */}
+            </ul>
           </Card>
         </div>
       </div>

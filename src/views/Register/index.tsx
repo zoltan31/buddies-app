@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import Logo from "../../logo2.png";
 
 type RegisterData = {
   email: string;
   password1: string;
   password2: string;
+  username: string;
 };
 
 export default function Register() {
@@ -15,6 +17,7 @@ export default function Register() {
     email: "",
     password1: "",
     password2: "",
+    username: "",
   });
 
   const changeRegisterData = (key: keyof RegisterData, data: string) => {
@@ -26,11 +29,12 @@ export default function Register() {
     formData.append("email", registerData.email);
     formData.append("password1", registerData.password1);
     formData.append("password2", registerData.password2);
+    // formData.append("username", registerData.username);
     fetch("http://localhost:8000/rest-auth/registration/", {
       method: "POST",
       body: formData,
     })
-      .then((res) => console.log(res))
+      .then(() => history.push("/login"))
       .catch((err) => console.error(err));
   };
 
@@ -53,16 +57,15 @@ export default function Register() {
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{" "}
-              <a
-                href="#"
+              <Link
+                to="/login"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 sign in to account
-              </a>
+              </Link>
             </p>
           </div>
           <form className="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
                 <label htmlFor="email-address" className="sr-only">
@@ -81,6 +84,24 @@ export default function Register() {
                 />
               </div>
               <div>
+                <label htmlFor="fullName" className="sr-only">
+                  Full Name
+                </label>
+                <input
+                  id="fullName"
+                  name="username"
+                  type="fullName"
+                  autoComplete="name"
+                  value={registerData.username}
+                  onChange={(e) =>
+                    changeRegisterData("username", e.target.value)
+                  }
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  placeholder="Full Name"
+                />
+              </div>
+              <div>
                 <label htmlFor="password" className="sr-only">
                   Password
                 </label>
@@ -88,7 +109,7 @@ export default function Register() {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   value={registerData.password1}
                   onChange={(e) =>
                     changeRegisterData("password1", e.target.value)
@@ -106,7 +127,7 @@ export default function Register() {
                   id="repeat-password"
                   name="repeat-password"
                   type="password"
-                  autoComplete="off"
+                  autoComplete="new-password"
                   value={registerData.password2}
                   onChange={(e) =>
                     changeRegisterData("password2", e.target.value)
@@ -119,21 +140,6 @@ export default function Register() {
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-
               <div className="text-sm">
                 <a
                   href="#"

@@ -8,6 +8,7 @@ type Session = {
   time: string;
   location: string;
   description: string;
+  experience: string;
 };
 
 export default function CreateSession() {
@@ -32,6 +33,7 @@ export default function CreateSession() {
     time: "",
     location: "",
     description: "",
+    experience: "",
   });
 
   const changeSession = (key: keyof Session, data: any) => {
@@ -44,7 +46,8 @@ export default function CreateSession() {
     formData.append("time", session.time);
     formData.append("location", session.location);
     formData.append("description", session.description);
-    formData.append("owner", "1");
+    formData.append("experience_level", session.experience);
+    formData.append("owner", owner.toString());
 
     fetch("http://localhost:8000/plan/", {
       method: "POST",
@@ -148,10 +151,14 @@ export default function CreateSession() {
                     id="experienceLevel"
                     name="experienceLevel"
                     className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    value={session.experience}
+                    onChange={(e) =>
+                      changeSession("experience", e.target.value)
+                    }
                   >
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="advanced">Advanced</option>
+                    <option value="0">Beginner</option>
+                    <option value="1">Intermediate</option>
+                    <option value="2">Advanced</option>
                   </select>
                 </div>
 

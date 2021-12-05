@@ -7,14 +7,25 @@ import { useState } from "react";
 import RenderIf from "../../../components/RenderIf";
 import { classNames } from "../../../utils/classnames";
 
-type Props = {
+export type SessionType = {
+  id: number;
   title: string;
   type: string;
   creator: string;
   location: string;
   description: string;
   time: string;
+  experience_level: string;
 };
+
+type Props = SessionType;
+
+const EXP = ["Beginner", "Intermediate", "Advanced"];
+const colorClasses = [
+  "bg-green-100 text-green-800",
+  "bg-yellow-100 text-yellow-800",
+  "bg-red-100 text-red-800",
+];
 
 const locationQuery = (location: string) => {
   return location.replace(" ", "+");
@@ -27,9 +38,11 @@ export default function Session({
   location,
   description,
   time,
+  experience_level,
 }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const toggle = () => setShowDetails(!showDetails);
+  console.log(experience_level);
 
   return (
     <div className="bg-gray-100 sm:rounded-md">
@@ -46,8 +59,13 @@ export default function Session({
                 {title}
               </p>
               <div className="ml-2 flex-shrink-0 flex">
-                <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  {type}
+                <p
+                  className={classNames(
+                    "px-2 inline-flex text-xs leading-5 font-semibold rounded-full",
+                    colorClasses[Number.parseInt(experience_level)]
+                  )}
+                >
+                  {EXP[Number.parseInt(experience_level)]}
                 </p>
               </div>
             </div>
