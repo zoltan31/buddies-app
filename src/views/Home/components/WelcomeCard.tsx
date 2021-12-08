@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import Card from "../../../components/Card";
 
 export default function WelcomeCard() {
-  const [user, setUser] = useState({
-    name: "Jill Baits",
-  });
+  const [name, setName] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8000/rest-auth/user", {
@@ -14,11 +12,7 @@ export default function WelcomeCard() {
       },
     })
       .then((res) => res.json())
-      .then((obj) => {
-        const email = obj.email as string;
-        const name = email.split("@")[0];
-        setUser((old) => ({ ...old, name }));
-      })
+      .then((obj) => setName(obj.first_name))
       .catch((err) => console.error(err));
   }, []);
 
@@ -40,7 +34,7 @@ export default function WelcomeCard() {
                   Welcome back,
                 </p>
                 <h3 className="text-xl font-bold text-gray-900 sm:text-2xl">
-                  {user.name}
+                  {name}
                 </h3>
               </div>
             </div>
@@ -53,20 +47,6 @@ export default function WelcomeCard() {
               View Profile
             </Link>
           </div>
-        </div>
-      </div>
-      <div className="px-4 sm:px-6 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
-        <div className="px-6 py-5 text-sm font-medium text-center">
-          <span className="text-gray-900">12</span>{" "}
-          <span className="text-gray-600">Buddies</span>
-        </div>
-        <div className="px-6 py-5 text-sm font-medium text-center">
-          <span className="text-gray-900">2</span>{" "}
-          <span className="text-gray-600">Sessions planned</span>
-        </div>
-        <div className="px-6 py-5 text-sm font-medium text-center">
-          <span className="text-gray-900">4</span>{" "}
-          <span className="text-gray-600">Invites pending</span>
         </div>
       </div>
     </Card>

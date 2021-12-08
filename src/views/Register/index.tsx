@@ -29,7 +29,7 @@ export default function Register() {
     formData.append("email", registerData.email);
     formData.append("password1", registerData.password1);
     formData.append("password2", registerData.password2);
-    // formData.append("username", registerData.username);
+    formData.append("first_name", registerData.username);
     fetch("http://localhost:8000/rest-auth/registration/", {
       method: "POST",
       body: formData,
@@ -40,14 +40,6 @@ export default function Register() {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
@@ -89,7 +81,7 @@ export default function Register() {
                 </label>
                 <input
                   id="fullName"
-                  name="username"
+                  name="name"
                   type="fullName"
                   autoComplete="name"
                   value={registerData.username}
@@ -136,17 +128,6 @@ export default function Register() {
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Repeat password"
                 />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot your password?
-                </a>
               </div>
             </div>
 

@@ -8,6 +8,7 @@ import Session, { SessionType } from "./components/Session";
 
 export default function Sessions() {
   const [sessions, setSessions] = useState<SessionType[]>([]);
+  const [joinedSessions, setJoinedSessions] = useState<SessionType[]>([]);
   const [joinedTitle, setJoinedTitle] = useState<string>("");
   const closeNoti = () => setJoinedTitle("");
 
@@ -25,6 +26,17 @@ export default function Sessions() {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    fetch("http://localhost:8000/user/joined/", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("key")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((obj) => setJoinedSessions(obj))
+      .catch(console.error);
+  }, [sessions]);
+
   return (
     <AppLayout header="Sessions">
       {/* Page header */}
@@ -35,12 +47,6 @@ export default function Sessions() {
           </h2>
         </div>
         <div className="mt-4 flex sm:mt-0 sm:ml-4">
-          <button
-            type="button"
-            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Manage
-          </button>
           <Link
             to="/sessions/create"
             className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -69,8 +75,11 @@ export default function Sessions() {
                     description={position.description}
                     location={position.location}
                     experience_level={position.experience_level}
-                    creator="Gill Bates"
+                    creator={(position as any).owner.first_name}
                     setJoined={setJoinedTitle}
+                    joined={joinedSessions.some(
+                      (sess) => sess.id === position.id
+                    )}
                   />
                 </li>
               ))}

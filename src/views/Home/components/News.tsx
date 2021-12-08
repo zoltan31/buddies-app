@@ -32,14 +32,11 @@ export default function News() {
                 <li key={announcement.id} className="py-5">
                   <div className="relative focus-within:ring-2 focus-within:ring-indigo-500">
                     <h3 className="text-sm font-semibold text-gray-800">
-                      <a
-                        href="#"
-                        className="hover:underline focus:outline-none"
-                      >
+                      <p className="hover:underline focus:outline-none">
                         {/* Extend touch target to entire panel */}
                         <span className="absolute inset-0" aria-hidden="true" />
                         {announcement.title}
-                      </a>
+                      </p>
                     </h3>
                     <p className="mt-1 text-sm text-gray-600 line-clamp-2">
                       {announcement.preview}
@@ -48,14 +45,6 @@ export default function News() {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="mt-6">
-            <a
-              href="#"
-              className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-            >
-              View all
-            </a>
           </div>
         </div>
       </div>

@@ -6,6 +6,19 @@ import Session from "../Sessions/components/Session";
 export default function Profile() {
   const [sessions, setSessions] = useState<any[]>([]);
 
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:8000/rest-auth/user", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("key")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((obj) => setName(obj.first_name))
+      .catch((err) => console.error(err));
+  }, []);
+
   useEffect(() => {
     fetch("http://localhost:8000/user/joined/", {
       headers: {
@@ -20,15 +33,6 @@ export default function Profile() {
       .catch((err) => console.error(err));
   }, []);
 
-  const [joinedTitle, setJoinedTitle] = useState<string>("");
-
-  const setJoined = (title: string) => {
-    setJoinedTitle(title);
-    setTimeout(() => {
-      setJoinedTitle("");
-    }, 2000);
-  };
-
   return (
     <AppLayout header="Profile">
       <div className="ml-4 mt-4">
@@ -42,7 +46,7 @@ export default function Profile() {
           </div>
           <div className="ml-4">
             <h3 className="text-xl font-bold text-gray-900 sm:text-2xl">
-              Jill Gates
+              {name}
             </h3>
           </div>
         </div>
@@ -62,9 +66,9 @@ export default function Profile() {
                     title={position.title}
                     description={position.description}
                     location={position.location}
-                    experience_level={position.experience}
-                    creator="Jani"
-                    setJoined={setJoined}
+                    experience_level={position.experience_level}
+                    creator={position.owner.first_name}
+                    joined
                   />
                 </li>
               ))}
